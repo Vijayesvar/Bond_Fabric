@@ -1,0 +1,198 @@
+{
+  "name": "bondbridge-network",
+  "version": "1.0.0",
+  "client": {
+    "organization": "issuer",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "bondchannel": {
+      "orderers": [
+        "orderer0.bondbridge.com",
+        "orderer1.bondbridge.com",
+        "orderer2.bondbridge.com"
+      ],
+      "peers": {
+        "peer0.issuer.bondbridge.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.investor.bondbridge.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.regulator.bondbridge.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.marketmaker.bondbridge.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.custodian.bondbridge.com": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        }
+      }
+    }
+  },
+  "organizations": {
+    "issuer": {
+      "mspid": "issuerMSP",
+      "peers": [
+        "peer0.issuer.bondbridge.com"
+      ],
+      "certificateAuthorities": [
+        "ca.issuer.bondbridge.com"
+      ]
+    },
+    "investor": {
+      "mspid": "investorMSP",
+      "peers": [
+        "peer0.investor.bondbridge.com"
+      ],
+      "certificateAuthorities": [
+        "ca.investor.bondbridge.com"
+      ]
+    },
+    "regulator": {
+      "mspid": "regulatorMSP",
+      "peers": [
+        "peer0.regulator.bondbridge.com"
+      ],
+      "certificateAuthorities": [
+        "ca.regulator.bondbridge.com"
+      ]
+    },
+    "marketmaker": {
+      "mspid": "marketmakerMSP",
+      "peers": [
+        "peer0.marketmaker.bondbridge.com"
+      ],
+      "certificateAuthorities": [
+        "ca.marketmaker.bondbridge.com"
+      ]
+    },
+    "custodian": {
+      "mspid": "custodianMSP",
+      "peers": [
+        "peer0.custodian.bondbridge.com"
+      ],
+      "certificateAuthorities": [
+        "ca.custodian.bondbridge.com"
+      ]
+    }
+  },
+  "orderers": {
+    "orderer0.bondbridge.com": {
+      "url": "grpc://localhost:7050"
+    },
+    "orderer1.bondbridge.com": {
+      "url": "grpc://localhost:8050"
+    },
+    "orderer2.bondbridge.com": {
+      "url": "grpc://localhost:9050"
+    }
+  },
+  "peers": {
+    "peer0.issuer.bondbridge.com": {
+      "url": "grpc://localhost:7051",
+      "tlsCACerts": {
+        "path": "/path/to/peer0.issuer.bondbridge.com/tls/ca.crt"
+      }
+    },
+    "peer0.investor.bondbridge.com": {
+      "url": "grpc://localhost:8051",
+      "tlsCACerts": {
+        "path": "/path/to/peer0.investor.bondbridge.com/tls/ca.crt"
+      }
+    },
+    "peer0.regulator.bondbridge.com": {
+      "url": "grpc://localhost:9051",
+      "tlsCACerts": {
+        "path": "/path/to/peer0.regulator.bondbridge.com/tls/ca.crt"
+      }
+    },
+    "peer0.marketmaker.bondbridge.com": {
+      "url": "grpc://localhost:10051",
+      "tlsCACerts": {
+        "path": "/path/to/peer0.marketmaker.bondbridge.com/tls/ca.crt"
+      }
+    },
+    "peer0.custodian.bondbridge.com": {
+      "url": "grpc://localhost:11051",
+      "tlsCACerts": {
+        "path": "/path/to/peer0.custodian.bondbridge.com/tls/ca.crt"
+      }
+    }
+  },
+  "certificateAuthorities": {
+    "ca.issuer.bondbridge.com": {
+      "url": "https://localhost:7054",
+      "caName": "ca-issuer",
+      "tlsCACerts": {
+        "path": "/path/to/ca.issuer.bondbridge.com/ca-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    },
+    "ca.investor.bondbridge.com": {
+      "url": "https://localhost:8054",
+      "caName": "ca-investor",
+      "tlsCACerts": {
+        "path": "/path/to/ca.investor.bondbridge.com/ca-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    },
+    "ca.regulator.bondbridge.com": {
+      "url": "https://localhost:9054",
+      "caName": "ca-regulator",
+      "tlsCACerts": {
+        "path": "/path/to/ca.regulator.bondbridge.com/ca-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    },
+    "ca.marketmaker.bondbridge.com": {
+      "url": "https://localhost:10054",
+      "caName": "ca-marketmaker",
+      "tlsCACerts": {
+        "path": "/path/to/ca.marketmaker.bondbridge.com/ca-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    },
+    "ca.custodian.bondbridge.com": {
+      "url": "https://localhost:11054",
+      "caName": "ca-custodian",
+      "tlsCACerts": {
+        "path": "/path/to/ca.custodian.bondbridge.com/ca-cert.pem"
+      },
+      "httpOptions": {
+        "verify": false
+      }
+    }
+  }
+}

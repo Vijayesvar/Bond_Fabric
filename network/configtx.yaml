@@ -1,0 +1,216 @@
+Organizations:
+  - &OrdererOrg
+    name: OrdererOrg
+    id: OrdererMSP
+    mspDir: ../organizations/ordererOrganizations/bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('OrdererMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('OrdererMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('OrdererMSP.admin')"
+
+  - &IssuerOrg
+    name: IssuerOrg
+    id: IssuerMSP
+    mspDir: ../organizations/peerOrganizations/issuer.bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('IssuerMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('IssuerMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('IssuerMSP.admin')"
+    anchorPeers:
+      - host: peer0.issuer.bondbridge.com
+        port: 7051
+
+  - &InvestorOrg
+    name: InvestorOrg
+    id: InvestorMSP
+    mspDir: ../organizations/peerOrganizations/investor.bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('InvestorMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('InvestorMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('InvestorMSP.admin')"
+    anchorPeers:
+      - host: peer0.investor.bondbridge.com
+        port: 8051
+
+  - &RegulatorOrg
+    name: RegulatorOrg
+    id: RegulatorMSP
+    mspDir: ../organizations/peerOrganizations/regulator.bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('RegulatorMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('RegulatorMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('RegulatorMSP.admin')"
+    anchorPeers:
+      - host: peer0.regulator.bondbridge.com
+        port: 9051
+
+  - &MarketMakerOrg
+    name: MarketMakerOrg
+    id: MarketMakerMSP
+    mspDir: ../organizations/peerOrganizations/marketmaker.bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('MarketMakerMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('MarketMakerMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('MarketMakerMSP.admin')"
+    anchorPeers:
+      - host: peer0.marketmaker.bondbridge.com
+        port: 10051
+
+  - &CustodianOrg
+    name: CustodianOrg
+    id: CustodianMSP
+    mspDir: ../organizations/peerOrganizations/custodian.bondbridge.com/msp
+    policies:
+      Readers:
+        type: Signature
+        rule: "OR('CustodianMSP.member')"
+      Writers:
+        type: Signature
+        rule: "OR('CustodianMSP.member')"
+      Admins:
+        type: Signature
+        rule: "OR('CustodianMSP.admin')"
+    anchorPeers:
+      - host: peer0.custodian.bondbridge.com
+        port: 11051
+
+Application: &ApplicationDefaults
+  organizations:
+  policies:
+    Readers:
+      type: ImplicitMeta
+      rule: "ANY Readers"
+    Writers:
+      type: ImplicitMeta
+      rule: "ANY Writers"
+    Admins:
+      type: ImplicitMeta
+      rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      type: ImplicitMeta
+      rule: "MAJORITY Endorsement"
+    Endorsement:
+      type: ImplicitMeta
+      rule: "MAJORITY Endorsement"
+  capabilities:
+    V2_0: true
+
+Orderer: &OrdererDefaults
+  ordererType: etcdraft
+  addresses:
+    - orderer0.bondbridge.com:7050
+    - orderer1.bondbridge.com:8050
+    - orderer2.bondbridge.com:9050
+  batchTimeout: 2s
+  batchSize:
+    maxMessageCount: 500
+    absoluteMaxBytes: 10 MB
+    preferredMaxBytes: 2 MB
+  maxChannels: 0
+  capabilities:
+    V2_0: true
+  policies:
+    Readers:
+      type: ImplicitMeta
+      rule: "ANY Readers"
+    Writers:
+      type: ImplicitMeta
+      rule: "ANY Writers"
+    Admins:
+      type: ImplicitMeta
+      rule: "MAJORITY Admins"
+    BlockValidation:
+      type: ImplicitMeta
+      rule: "ANY Writers"
+  etcdraft:
+    consenters:
+      - host: orderer0.bondbridge.com
+        port: 7050
+        clientTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer0.bondbridge.com/tls/server.crt
+        serverTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer0.bondbridge.com/tls/server.crt
+      - host: orderer1.bondbridge.com
+        port: 8050
+        clientTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer1.bondbridge.com/tls/server.crt
+        serverTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer1.bondbridge.com/tls/server.crt
+      - host: orderer2.bondbridge.com
+        port: 9050
+        clientTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer2.bondbridge.com/tls/server.crt
+        serverTLSCert: ../organizations/ordererOrganizations/bondbridge.com/orderers/orderer2.bondbridge.com/tls/server.crt
+
+Channel: &ChannelDefaults
+  policies:
+    Readers:
+      type: ImplicitMeta
+      rule: "ANY Readers"
+    Writers:
+      type: ImplicitMeta
+      rule: "ANY Writers"
+    Admins:
+      type: ImplicitMeta
+      rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      type: ImplicitMeta
+      rule: "MAJORITY Endorsement"
+    Endorsement:
+      type: ImplicitMeta
+      rule: "MAJORITY Endorsement"
+  capabilities:
+    V2_0: true
+
+Profiles:
+  BondBridgeOrdererGenesis:
+    <<: *ChannelDefaults
+    orderer:
+      <<: *OrdererDefaults
+      organizations:
+        - *OrdererOrg
+    consortiums:
+      BondBridgeConsortium:
+        organizations:
+          - *IssuerOrg
+          - *InvestorOrg
+          - *RegulatorOrg
+          - *MarketMakerOrg
+          - *CustodianOrg
+
+  BondChannel:
+    consortium: BondBridgeConsortium
+    <<: *ChannelDefaults
+    application:
+      <<: *ApplicationDefaults
+      organizations:
+        - *IssuerOrg
+        - *InvestorOrg
+        - *RegulatorOrg
+        - *MarketMakerOrg
+        - *CustodianOrg

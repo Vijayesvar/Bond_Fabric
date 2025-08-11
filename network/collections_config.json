@@ -1,0 +1,50 @@
+[
+  {
+    "name": "kyc-private",
+    "policy": "OR('RegulatorMSP.peer', 'CustodianMSP.peer')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('RegulatorMSP.peer', 'CustodianMSP.peer')"
+    }
+  },
+  {
+    "name": "aml-private",
+    "policy": "OR('RegulatorMSP.peer', 'MarketMakerMSP.peer')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('RegulatorMSP.peer', 'MarketMakerMSP.peer')"
+    }
+  },
+  {
+    "name": "bond-details-private",
+    "policy": "OR('IssuerMSP.peer', 'RegulatorMSP.peer')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('IssuerMSP.peer', 'RegulatorMSP.peer')"
+    }
+  },
+  {
+    "name": "settlement-private",
+    "policy": "OR('CustodianMSP.peer', 'MarketMakerMSP.peer')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true,
+    "endorsementPolicy": {
+      "signaturePolicy": "AND('CustodianMSP.peer', 'MarketMakerMSP.peer')"
+    }
+  }
+]

@@ -1,0 +1,107 @@
+# BondBridge Endorsement Policies
+# This file defines explicit endorsement policies for each chaincode operation
+
+# BondToken Chaincode Endorsement Policies
+BondToken:
+  # Bond Issuance: Requires Issuer + Regulator approval
+  IssueBond:
+    policy: "AND('IssuerMSP.peer', 'RegulatorMSP.peer')"
+    description: "Bond issuance requires both issuer and regulatory approval"
+  
+  # Bond Transfer: Requires Seller + Custodian + Market Maker approval
+  Transfer:
+    policy: "AND('IssuerMSP.peer', 'CustodianMSP.peer', 'MarketMakerMSP.peer')"
+    description: "Transfer requires seller approval, custodian verification, and market maker validation"
+  
+  # Bond Status Update: Requires Issuer + Regulator approval
+  UpdateBondStatus:
+    policy: "AND('IssuerMSP.peer', 'RegulatorMSP.peer')"
+    description: "Status changes require issuer and regulatory approval"
+  
+  # Query Operations: Any peer can read
+  QueryOperations:
+    policy: "ANY('IssuerMSP.peer', 'InvestorMSP.peer', 'RegulatorMSP.peer', 'MarketMakerMSP.peer', 'CustodianMSP.peer')"
+    description: "Read operations can be performed by any organization"
+
+# Compliance Chaincode Endorsement Policies
+Compliance:
+  # KYC Creation: Requires Regulator approval
+  CreateKYC:
+    policy: "AND('RegulatorMSP.peer', 'IssuerMSP.peer')"
+    description: "KYC creation requires regulatory and issuer approval"
+  
+  # KYC Approval: Requires Regulator + Custodian approval
+  ApproveKYC:
+    policy: "AND('RegulatorMSP.peer', 'CustodianMSP.peer')"
+    description: "KYC approval requires regulatory and custodian approval"
+  
+  # AML Check: Requires Regulator + Market Maker approval
+  CreateAMLCheck:
+    policy: "AND('RegulatorMSP.peer', 'MarketMakerMSP.peer')"
+    description: "AML checks require regulatory and market maker approval"
+  
+  # Compliance Check: Any peer can perform
+  CheckCompliance:
+    policy: "ANY('IssuerMSP.peer', 'InvestorMSP.peer', 'RegulatorMSP.peer', 'MarketMakerMSP.peer', 'CustodianMSP.peer')"
+    description: "Compliance checks can be performed by any organization"
+
+# CorporateAction Chaincode Endorsement Policies
+CorporateAction:
+  # Coupon Payment Creation: Requires Issuer + Custodian approval
+  CreateCouponPayment:
+    policy: "AND('IssuerMSP.peer', 'CustodianMSP.peer')"
+    description: "Coupon payment creation requires issuer and custodian approval"
+  
+  # Coupon Payment Processing: Requires Custodian + Market Maker approval
+  ProcessCouponPayment:
+    policy: "AND('CustodianMSP.peer', 'MarketMakerMSP.peer')"
+    description: "Coupon payment processing requires custodian and market maker approval"
+  
+  # Redemption Creation: Requires Issuer + Regulator approval
+  CreateRedemption:
+    policy: "AND('IssuerMSP.peer', 'RegulatorMSP.peer')"
+    description: "Redemption creation requires issuer and regulatory approval"
+  
+  # Redemption Processing: Requires Custodian + Regulator approval
+  ProcessRedemption:
+    policy: "AND('CustodianMSP.peer', 'RegulatorMSP.peer')"
+    description: "Redemption processing requires custodian and regulatory approval"
+
+# Channel Configuration Endorsement Policies
+ChannelConfig:
+  # Channel Configuration Changes: Requires majority of admins
+  UpdateChannelConfig:
+    policy: "MAJORITY Admins"
+    description: "Channel configuration changes require majority of organization admins"
+  
+  # Chaincode Lifecycle: Requires majority of admins
+  ChaincodeLifecycle:
+    policy: "MAJORITY Admins"
+    description: "Chaincode lifecycle operations require majority of organization admins"
+
+# Organization-Specific Policies
+OrganizationPolicies:
+  IssuerMSP:
+    role: "Bond Issuer"
+    permissions: ["IssueBond", "UpdateBondStatus", "CreateCouponPayment", "CreateRedemption"]
+    required_endorsements: ["RegulatorMSP"]
+  
+  RegulatorMSP:
+    role: "Regulatory Authority"
+    permissions: ["ApproveKYC", "CreateAMLCheck", "ApproveBondIssuance", "ApproveRedemption"]
+    required_endorsements: ["IssuerMSP", "CustodianMSP"]
+  
+  CustodianMSP:
+    role: "Custodian & Settlement"
+    permissions: ["ProcessCouponPayment", "ProcessRedemption", "ApproveKYC", "SettleTrades"]
+    required_endorsements: ["IssuerMSP", "RegulatorMSP"]
+  
+  MarketMakerMSP:
+    role: "Market Making & Liquidity"
+    permissions: ["ValidateTransfers", "ProcessCouponPayment", "ProvideLiquidity"]
+    required_endorsements: ["IssuerMSP", "CustodianMSP"]
+  
+  InvestorMSP:
+    role: "Bond Holder"
+    permissions: ["QueryBonds", "TransferBonds", "QueryCompliance"]
+    required_endorsements: ["CustodianMSP", "MarketMakerMSP"]

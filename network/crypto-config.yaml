@@ -1,0 +1,83 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# ---------------------------------------------------------------------------
+# "OrdererOrgs" - Definition of organizations managing orderer nodes
+# ---------------------------------------------------------------------------
+OrdererOrgs:
+  - Name: OrdererOrg
+    Domain: bondbridge.com
+    EnableNodeOUs: true
+
+    Specs:
+      - Hostname: orderer0
+        SANS:
+          - 127.0.0.1
+      - Hostname: orderer1
+        SANS:
+          - 127.0.0.1
+      - Hostname: orderer2
+        SANS:
+          - 127.0.0.1
+
+# ---------------------------------------------------------------------------
+# "PeerOrgs" - Definition of organizations managing peer nodes
+# ---------------------------------------------------------------------------
+PeerOrgs:
+  - Name: IssuerOrg
+    Domain: issuer.bondbridge.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: InvestorOrg
+    Domain: investor.bondbridge.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: RegulatorOrg
+    Domain: regulator.bondbridge.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: MarketMakerOrg
+    Domain: marketmaker.bondbridge.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - 127.0.0.1
+    Users:
+      Count: 1
+
+  - Name: CustodianOrg
+    Domain: custodian.bondbridge.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - 127.0.0.1
+    Users:
+      Count: 1
+

@@ -1,0 +1,110 @@
+General:
+  ListenAddress: 0.0.0.0
+  ListenPort: 7050
+  TLS:
+    Enabled: false
+    PrivateKey: tls/server.key
+    Certificate: tls/server.crt
+    RootCAs:
+      - tls/ca.crt
+    ClientAuthRequired: false
+    ClientRootCAs:
+  Keepalive:
+    ServerMinInterval: 60s
+    ServerInterval: 2m
+    ServerTimeout: 20s
+  GenesisMethod: file
+  GenesisFile: /var/hyperledger/orderer/orderer.genesis.block
+  LocalMSPDir: msp
+  LocalMSPID: OrdererMSP
+  Profile:
+    Enabled: false
+    Address: 0.0.0.0:6060
+  BCCSP:
+    Default: SW
+    SW:
+      Hash: SHA2
+      Security: 256
+      FileKeyStore:
+        KeyStore:
+  Authentication:
+    TimeWindow: 15m
+
+FileLedger:
+  Location: /var/hyperledger/production/orderer
+  Prefix: hyperledger-fabric-ordererledger
+
+RAMLedger:
+  HistorySize: 1000
+
+Kafka:
+  Retry:
+    ShortInterval: 5s
+    ShortTotal: 10m
+    LongInterval: 5m
+    LongTotal: 12h
+    NetworkTimeouts:
+      DialTimeout: 10s
+      ReadTimeout: 10s
+      WriteTimeout: 10s
+    Metadata:
+      RetryBackoff: 100ms
+      RetryMax: 3
+    Producer:
+      RetryBackoff: 100ms
+      RetryMax: 3
+    Consumer:
+      RetryBackoff: 2s
+  Verbose: false
+  TLS:
+    Enabled: false
+    PrivateKey:
+    Certificate:
+    RootCAs: []
+    ServerName:
+  Topic:
+    ReplicationFactor: 1
+  ConnectionPoolSize: 256
+  ChannelBufferSize: 256
+  Version: 0.10.2.0
+
+EtcdRaft:
+  Consenters:
+    - Host: orderer0.bondbridge.com
+      Port: 7050
+      ClientTLSCert: tls/server.crt
+      ServerTLSCert: tls/server.crt
+    - Host: orderer1.bondbridge.com
+      Port: 8050
+      ClientTLSCert: tls/server.crt
+      ServerTLSCert: tls/server.crt
+    - Host: orderer2.bondbridge.com
+      Port: 9050
+      ClientTLSCert: tls/server.crt
+      ServerTLSCert: tls/server.crt
+  Options:
+    TickInterval: 500ms
+    ElectionTick: 10
+    HeartbeatTick: 1
+    MaxInflightBlocks: 5
+    SnapshotIntervalSize: 16 MB
+  MaxSnapshots: 5
+  WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+  SnapshotDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+
+Operations:
+  ListenAddress: 0.0.0.0:8443
+  TLS:
+    Enabled: false
+    Certificate:
+    PrivateKey:
+    ClientAuthRequired: false
+    ClientRootCAs: []
+
+Metrics:
+  Provider: disabled
+  Statsd:
+    Network: udp
+    Address: 127.0.0.1:8125
+    WriteInterval: 10s
+    Prefix: ""
