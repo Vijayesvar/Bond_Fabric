@@ -52,13 +52,6 @@ BondBridge/
 └── docs/             # Documentation and runbooks
 ```
 
-## Development Timeline
 
-- **Week 1**: Foundation & Network Setup
-- **Week 2**: Smart Contracts & Tokenization
-- **Week 3**: Off-Chain Services & APIs
-- **Week 4**: Frontend & End-to-End Testing
-
-## License
 
 MIT License
